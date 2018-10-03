@@ -23,15 +23,16 @@ Only tested on MacOS "High Sierra" and "Mojave"
 
 -> Recommend manual install "Installing System Workbench for STM32 from Eclipse" to avoid debug crashes.
 
-# If you want to make a new project
+# 4. If you want to make a new project
 Check out below links.
 
 [Creating a new project](http://www.openstm32.org/Creating%2Ba%2Bnew%2Bproject)
+
 [Importing a STCubeMX generated project](http://www.openstm32.org/Importing%2Ba%2BSTCubeMX%2Bgenerated%2Bproject)
 
 [STM32CubeMX](https://www.st.com/en/development-tools/stm32cubemx.html)
 
-# 4. TODO
+# 5. TODO List
 - [ ] Implement GPIO Driver
 - [ ] Implement SPI Driver
 - [ ] Implement I2C Driver
