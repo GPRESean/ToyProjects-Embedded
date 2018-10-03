@@ -3,6 +3,7 @@
 
 # 2. Target
 Microcontroller : [STM32F446RE](https://www.st.com/en/microcontrollers/stm32f446re.html)
+
 Board : [NUCLEO-F446RE](https://www.st.com/en/evaluation-tools/nucleo-f446re.html)
 
 # 3. How to get build environment
@@ -19,6 +20,7 @@ Only tested on MacOS "High Sierra" and "Mojave"
 6. Click Restart Now
 
 [Latest Installation manual (Register required)](http://www.openstm32.org/Installing%2BSystem%2BWorkbench%2Bfor%2BSTM32)
+
 -> Recommend manual install "Installing System Workbench for STM32 from Eclipse" to avoid debug crashes.
 
 # If you want to make a new project
