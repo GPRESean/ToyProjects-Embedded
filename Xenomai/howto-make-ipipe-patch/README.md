@@ -1,7 +1,7 @@
 # What is this?
 This description is about explaining how to make a latest patch of ipipe for Kernel and RaspberryPi.
 
-Currently (2018.10.14), **ipipe-core-4.14.71-arm-4** is latest version however you can make other version of ipip patch.
+Currently (2018.10.14), **ipipe-core-4.14.71-arm-4** is latest version. However you can easly make other version of ipipe patch.
 
 ## 1. How to make ipipe patch file
 
@@ -10,14 +10,14 @@ Clone **ipipe-arm** repository
 git clone https://gitlab.denx.de/Xenomai/ipipe-arm.git
 ```
 
-Checkout latest **ipipe-arm** (On 2018.10.14)
+Checkout latest **ipipe-arm**
 ```
 cd ipipe-arm
 git checkout tags/ipipe-core-4.14.71-arm-4 -b ipipe-core-4.14.71-arm-4
 ```
 
 Save diff of **ipipe-arm** which are from **Linux 4.14.71** to **HEAD**  
-From [Linux 4.14.71](https://gitlab.denx.de/Xenomai/ipipe-arm/commit/1244bbb3e92135d247e2dddfa6fe5e3e171a9635)  
+From ipipe [Linux 4.14.71](https://gitlab.denx.de/Xenomai/ipipe-arm/commit/1244bbb3e92135d247e2dddfa6fe5e3e171a9635)  
 To [tags/ipipe-core-4.14.71-arm-4](https://gitlab.denx.de/Xenomai/ipipe-arm/commit/b7600fd089fdcbd5aae5385b42498259924ca2fb)
 ```
 git diff 1244bbb3e92135d247e2dddfa6fe5e3e171a9635..HEAD > ipipe-core-4.14.71-arm-4.patch
@@ -31,12 +31,12 @@ git clone https://github.com/raspberrypi/linux.git
 ```
 
 Set head to **Linux 4.14.71** of RaspberryPi  
-To [Linux 4.14.71](https://github.com/raspberrypi/linux/commit/df493abeaf1b0a2a83ebe21262758f802e567a38)
+To rpi [Linux 4.14.71](https://github.com/raspberrypi/linux/commit/df493abeaf1b0a2a83ebe21262758f802e567a38)
 ```
 git reset --hard df493abeaf1b0a2a83ebe21262758f802e567a38
 ```
 
-Create a new branch from **RaspberryPi 4.14.71** for your recognition
+Create a new branch from **RaspberryPi 4.14.71** for your recognition. (Since they named branch as **rpi-4.14.y**)
 ```
 git checkout -b rpi-4.14.71
 ```
@@ -53,7 +53,7 @@ git fetch ipipe-arm
 ```
 
 Cherry-pick from first commit of **ipipe-arm** after **Linux 4.14.71** to **tags/ipipe-core-4.14.71-arm-4**  
-From [Linux 4.14.71](https://gitlab.denx.de/Xenomai/ipipe-arm/commit/1244bbb3e92135d247e2dddfa6fe5e3e171a9635)  
+From ipipe [Linux 4.14.71](https://gitlab.denx.de/Xenomai/ipipe-arm/commit/1244bbb3e92135d247e2dddfa6fe5e3e171a9635)  
 To [tags/ipipe-core-4.14.71-arm-4](https://gitlab.denx.de/Xenomai/ipipe-arm/commit/b7600fd089fdcbd5aae5385b42498259924ca2fb)
 ```
 git cherry-pick 1244bbb3e92135d247e2dddfa6fe5e3e171a9635..tags/ipipe-core-4.14.71-arm-4
