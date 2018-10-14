@@ -72,7 +72,7 @@ vi <conflict file>
 git add <conflict file>
 ```
 
-Modify commit message and save it. Exit editor will commit the change and continue
+Modify commit message and save it. Exiting editor will commit the change and continue
 ```
 git cherry-pick --continue
 ```
@@ -82,8 +82,8 @@ Check results (with your eyes)
 git log --pretty=oneline --abbrev-commit
 ```
 
-Extract patch for later use  
-From [first commit of **ipipe-arm**](https://github.com/raspberrypi/linux/commit/df493abeaf1b0a2a83ebe21262758f802e567a38)
+Extract patch for later use. From first commit of first commit of **ipipe-arm** after **Linux 4.14.71** to HEAD  
+From rpi [Linux 4.14.71](https://github.com/raspberrypi/linux/commit/df493abeaf1b0a2a83ebe21262758f802e567a38)
 ```
 git diff df493abeaf1b0a2a83ebe21262758f802e567a38..HEAD > ipipe-core-4.14.71-arm-4_raspberrpi.patch
 ```
