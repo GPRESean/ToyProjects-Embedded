@@ -3,7 +3,7 @@ This description is about explaining how to make a latest patch of ipipe for Ker
 
 Currently (2018.10.14), **ipipe-core-4.14.71-arm-4** is latest version. However you can easly make other version of ipipe patch.
 
-[ipipe-arm GitLab repository](https://gitlab.denx.de/Xenomai/ipipe-arm)
+[ipipe-arm GitLab repository](https://gitlab.denx.de/Xenomai/ipipe-arm)  
 [Kernel for RaspberryPi GitHub repository](https://github.com/raspberrypi/linux)
 
 ## 1. How to make ipipe patch file
