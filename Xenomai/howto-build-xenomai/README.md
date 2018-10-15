@@ -20,12 +20,12 @@ Referenced post:
 
 ## 1-1. Setup
 
-I will get files and build at `${build_root}` == `/home/builder/local`
+I will get files and build at `build_root=/home/builder/local`
 ```
 cd /home/builder/local
 ```
 
-1) Get Linux Kernel
+1. Get Linux Kernel
 
 Clone Linux Kernel of RaspberryPi
 ```
@@ -45,9 +45,10 @@ Create a new branch for **ipipe-arm**
 git checkout -b rpi-4.14.71_ipipe-arm
 ```
 
-2) Get Build tools
+2. Get Build tools
 
-I will use [RaspberryPi Tools](https://github.com/raspberrypi/tools).
+I will use [RaspberryPi Tools](https://github.com/raspberrypi/tools).  
+(In Docker environment, if you clone the repository not downloading the binaries, you may encounter "no such file or directory" on ARM 32bit cross compiler)
 ```
 cd ${build_root}
 wget https://github.com/raspberrypi/tools/archive/master.zip -O tools-rpi.zip
@@ -55,7 +56,7 @@ unzip tools-rpi.zip
 mv tools-master/ tools-rpi/
 ```
 
-3) Get Xenomai source
+3. Get Xenomai source
 
 ```
 cd ${build_root}
@@ -63,7 +64,7 @@ wget http://xenomai.org/downloads/xenomai/stable/xenomai-3.0.7.tar.bz2
 tar xf xenomai-3.0.7.tar.bz2
 ```
 
-4) Get ipipe patch.
+4. Get ipipe patch.
 
 I recommend you to use [a patch which I created](https://github.com/GPRESean/ToyProjects-Embedded/blob/master/Xenomai/howto-make-ipipe-patch/ipipe-core-4.14.71-arm-4_raspberrpi.patch).
 (Original patch will cause conflicts on irq-bcm2835.c and irq-bcm2836.c)
@@ -71,7 +72,7 @@ I recommend you to use [a patch which I created](https://github.com/GPRESean/Toy
 wget https://raw.githubusercontent.com/GPRESean/ToyProjects-Embedded/master/Xenomai/howto-make-ipipe-patch/ipipe-core-4.14.71-arm-4_raspberrpi.patch
 ```
 
-5) Setup env values.
+5. Setup env values.
 
 **Edit** my [`build_env.sh`](https://github.com/GPRESean/ToyProjects-Embedded/blob/master/Xenomai/howto-build-xenomai/build_env.sh) with your own path
 ```
@@ -119,7 +120,7 @@ mkdir -p $INSTALL_MOD_PATH/boot
 
 ## 1-3. Install
 
-1) On host
+1. On host
 
 Make tgz file of build outputs
 ```
@@ -132,7 +133,7 @@ Copy tgz file to `~/Work/` of your target device. (or your own way)
 scp boot-xenomai3.0.7-ipipe4.14.71.tgz pi@<your device ip>:~/Work/
 ```
 
-2) On target device (Raspyberry Pi)
+2. On target device (Raspberry Pi)
 
 Install your image. (Extract tgz file)
 ```
@@ -202,7 +203,7 @@ make -j4 install
 
 ## 2-2. Install
 
-1) On host
+1. On host
 
 Make tgz file of build outputs
 ```
@@ -215,7 +216,7 @@ Copy tgz file to `~/Work/` of your target device. (or your own way)
 scp tools-xenomai3.0.7.tgz pi@<your device ip>:~/Work/
 ```
 
-2) On target device (Raspyberry Pi)
+2. On target device (Raspberry Pi)
 
 Overwrite `/dev/` and `/usr/`
 ```
@@ -228,7 +229,7 @@ rm tools-xenomai3.0.7.tgz
 exit
 ```
 
-#### 2-1) Edit xeno-config
+2-1. Edit xeno-config
 
 Correct the path of compiler.  
 (Like above **Attention1**. If you built Xenomai libraries and tools on Raspberry Pi direcly, you can skip this.)
@@ -241,7 +242,7 @@ Replace a line like below
 XENO_CC="gcc"
 ```
 
-#### 2-2) Add Xenomai lib to Linux system
+2-2. Add Xenomai lib to Linux system
 
 Create xenomai ld conf file
 ```
@@ -263,7 +264,7 @@ Check ld
 sudo ldconfig -v
 ```
 
-#### 2-3) Add Xenomai executable path to $PATH
+2-3. Add Xenomai executable path to $PATH
 
 Edit `.profile` (or your own PATH configuration file)
 ```
