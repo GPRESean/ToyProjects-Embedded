@@ -12,18 +12,20 @@ docker build -t ubuntu/builder:latest .
 docker run -it -v <host path>:<container path> --name rt-builder ubuntu/builder:latest
 ```
 
-Referenced post: [Link](https://lemariva.com/blog/2018/07/raspberry-pi-preempt-rt-patching-tutorial-for-kernel-4-14-y)
+Referenced post:  
+[Official Installing Xenomai 3.x](https://gitlab.denx.de/Xenomai/xenomai/wikis/Installing_Xenomai_3)  
+[A blog](https://lemariva.com/blog/2018/07/raspberry-pi-preempt-rt-patching-tutorial-for-kernel-4-14-y)
 
 # 1. Build step - Kernel, Cobalt
 
-## Setup
+## 1-1. Setup
 
 I will get files and build at `${build_root}` == `/home/builder/local`
 ```
 cd /home/builder/local
 ```
 
-### Get Linux Kernel
+1) Get Linux Kernel
 
 Clone Linux Kernel of RaspberryPi
 ```
@@ -43,7 +45,7 @@ Create a new branch for **ipipe-arm**
 git checkout -b rpi-4.14.71_ipipe-arm
 ```
 
-### Get Build tools
+2) Get Build tools
 
 I will use [RaspberryPi Tools](https://github.com/raspberrypi/tools).
 ```
@@ -53,7 +55,7 @@ unzip tools-rpi.zip
 mv tools-master/ tools-rpi/
 ```
 
-### Get Xenomai
+3) Get Xenomai source
 
 ```
 cd ${build_root}
@@ -61,25 +63,29 @@ wget http://xenomai.org/downloads/xenomai/stable/xenomai-3.0.7.tar.bz2
 tar xf xenomai-3.0.7.tar.bz2
 ```
 
-### Get ipipe patch.
+4) Get ipipe patch.
 
-I recommend you to use a patch wich I created.
+I recommend you to use [a patch which I created](https://github.com/GPRESean/ToyProjects-Embedded/blob/master/Xenomai/howto-make-ipipe-patch/ipipe-core-4.14.71-arm-4_raspberrpi.patch).
 (Original patch will cause conflicts on irq-bcm2835.c and irq-bcm2836.c)
 ```
 wget https://raw.githubusercontent.com/GPRESean/ToyProjects-Embedded/master/Xenomai/howto-make-ipipe-patch/ipipe-core-4.14.71-arm-4_raspberrpi.patch
 ```
 
-### Setup env values.
+5) Setup env values.
 
-**Edit** the `build_env.sh` with your own path
+**Edit** my [`build_env.sh`](https://github.com/GPRESean/ToyProjects-Embedded/blob/master/Xenomai/howto-build-xenomai/build_env.sh) with your own path
 ```
 wget https://raw.githubusercontent.com/GPRESean/ToyProjects-Embedded/master/Xenomai/howto-build-xenomai/build_env.sh
 vi build_env.sh
+```
+
+Execute the script
+```
 chmod +x build_env.sh
 . build_env.sh
 ```
 
-## Build
+## 1-2. Build
 
 Setting Linux for Xenomai. (patch the kernel with ipipe-core)
 ```
@@ -111,9 +117,9 @@ mkdir -p $INSTALL_MOD_PATH/boot
 ./scripts/mkknlimg ${out_build}/arch/arm/boot/zImage $INSTALL_MOD_PATH/boot/$KERNEL.img
 ```
 
-## Install
+## 1-3. Install
 
-### On host
+1) On host
 
 Make tgz file of build outputs
 ```
@@ -126,11 +132,9 @@ Copy tgz file to `~/Work/` of your target device. (or your own way)
 scp boot-xenomai3.0.7-ipipe4.14.71.tgz pi@<your device ip>:~/Work/
 ```
 
-### On target device (Raspyberry Pi)
+2) On target device (Raspyberry Pi)
 
-#### Install your image
-
-Extract tgz file.
+Install your image. (Extract tgz file)
 ```
 cd ~/Work
 mkdir -p boot-xenomai3.0.7-ipipe4.14.71
@@ -139,7 +143,7 @@ tar xzf ../boot-xenomai3.0.7-ipipe4.14.71.tgz
 ```
 
 Replace boot files and kernel modules.  
-(You might want to backup your original boot files before doing it)
+(You might want to backup your original boot files before doing below)
 ```
 sudo cp *.dtb /boot/
 sudo cp -rd ./boot/* /boot/
@@ -148,7 +152,7 @@ sudo cp -rd ./lib/* /lib/
 ```
 
 Add below line in `/boot/config.txt`  
-Replace `<$KERNEL>` with `kernel7` depending on `build_env.sh`
+Replace `<$KERNEL>` with `kernel7` depending on your `build_env.sh`
 ```
 kernel=<$KERNEL>.img
 device_tree=bcm2710-rpi-3-b.dtb
@@ -163,9 +167,9 @@ dwc_otg.fiq_enable=0 dwc_otg.fiq_fsm_enable=0 dwc_otg.nak_holdoff=0
 
 # 2. Build step - Xenomai libraries and tools
 
-## Build
+## 2-1. Build
 
-Install requiring packages. (Should install libfuse2 before libfuse-dev like below order)
+Install required packages. (Should install libfuse2 before libfuse-dev like below order)
 ```
 sudo apt-get install autoconf libtool
 sudo apt-get install pkg-config
@@ -174,7 +178,7 @@ sudo apt-get install libfuse-dev
 ```
 
 ```
-# Logout and Login again to new packages to work
+# Logout and Login again to make new packages working
 ```
 
 Setup Xenomai libraries and tools
@@ -185,7 +189,7 @@ cd $xenomai_root
 make -j8 DESTDIR=${build_root}/out_xenomai install
 ```
 
-**Attention1** You can also build and install Xenomai libraries and tools on Raspberry Pi with below commands instead.  
+**Attention1**: You can also build and install Xenomai libraries and tools on Raspberry Pi with below commands instead.  
 I recommend you to do this, even if it is a bit slow. Due to some mismatches of path and configurations.
 ```
 sudo apt-get install autoconf libtool
@@ -196,9 +200,9 @@ make -j4 install
 ```
 
 
-## Install
+## 2-2. Install
 
-### On host
+1) On host
 
 Make tgz file of build outputs
 ```
@@ -211,9 +215,9 @@ Copy tgz file to `~/Work/` of your target device. (or your own way)
 scp tools-xenomai3.0.7.tgz pi@<your device ip>:~/Work/
 ```
 
-### On target device (Raspyberry Pi)
+2) On target device (Raspyberry Pi)
 
-Uncompress to /dev/, /usr/
+Overwrite `/dev/` and `/usr/`
 ```
 cd ~/Work
 sudo su
@@ -224,7 +228,7 @@ rm tools-xenomai3.0.7.tgz
 exit
 ```
 
-#### Edit xeno-config
+#### 2-1) Edit xeno-config
 
 Correct the path of compiler.  
 (Like above **Attention1**. If you built Xenomai libraries and tools on Raspberry Pi direcly, you can skip this.)
@@ -237,7 +241,7 @@ Replace a line like below
 XENO_CC="gcc"
 ```
 
-#### Add Xenomai lib to Linux system
+#### 2-2) Add Xenomai lib to Linux system
 
 Create xenomai ld conf file
 ```
@@ -259,7 +263,7 @@ Check ld
 sudo ldconfig -v
 ```
 
-#### Add Xenomai executable path to $PATH
+#### 2-3) Add Xenomai executable path to $PATH
 
 Edit `.profile` (or your own PATH configuration file)
 ```
@@ -277,7 +281,7 @@ if [ -d "/usr/xenomai/bin" ] ; then
 fi
 ```
 
-## Test installation
+# 3. Test installation
 
 See if Xenomai Cobalt is working
 ```
