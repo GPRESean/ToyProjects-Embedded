@@ -48,7 +48,7 @@ git checkout -b rpi-4.14.71_ipipe-arm
 2. Get Build tools
 
 I will use [RaspberryPi Tools](https://github.com/raspberrypi/tools).  
-(In Docker environment, if you clone the repository not downloading the binaries, you may encounter "no such file or directory" on ARM 32bit cross compiler)
+(In Docker environment, if you clone the repository not downloading the binaries, you may encounter "no such file or directory" for ARM 32bit cross compiler)
 ```
 cd ${build_root}
 wget https://github.com/raspberrypi/tools/archive/master.zip -O tools-rpi.zip
