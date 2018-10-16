@@ -13,7 +13,8 @@ docker run -it -v <host path>:<container path> --name rt-builder ubuntu/builder:
 ```
 
 Referenced post:  
-[Official HOWTO](https://wiki.linuxfoundation.org/realtime/documentation/howto/applications/preemptrt_setup)  
+[Official RT-Kernel HOWTO](https://wiki.linuxfoundation.org/realtime/documentation/howto/applications/preemptrt_setup)  
+[Official Raspberry Pi Kernel Buildling](https://www.raspberrypi.org/documentation/linux/kernel/building.md)  
 [A blog](https://lemariva.com/blog/2018/07/raspberry-pi-xenomai-patching-tutorial-for-kernel-4-14-y)
 
 # 1. How to build
@@ -161,7 +162,7 @@ device_tree=bcm2710-rpi-3-b.dtb
 ```
 
 4. Add below commands in `/boot/cmdline.txt`  
-Check explanation [here](https://raspberrypi.stackexchange.com/questions/4090/how-can-dwc-otg-speed-1-be-made-to-work).
+Check explanation [here](https://raspberrypi.stackexchange.com/questions/4090/how-can-dwc-otg-speed-1-be-made-to-work) and [here](https://wiki.linuxfoundation.org/realtime/documentation/known_limitations#raspberry-pi-2-and-3).
 ```
 dwc_otg.fiq_enable=0 dwc_otg.fiq_fsm_enable=0 dwc_otg.nak_holdoff=0
 ```
@@ -174,14 +175,14 @@ sudo reboot
 # 3. Test installation
 
 1. Check Kernel version.  
-I will be print some like `4.14.74-rt44-v7+`
+It will print something like `4.14.74-rt44-v7+`.
 ```
 uname -r
 ```
 
 2. Test application  
 [RT-Test](https://wiki.linuxfoundation.org/realtime/documentation/howto/tools/rt-tests)  
-[A Blog](https://lemariva.com/blog/2018/02/raspberry-pi-rt-preempt-vs-standard-kernel-4-14-y)  
+[A blog](https://lemariva.com/blog/2018/02/raspberry-pi-rt-preempt-vs-standard-kernel-4-14-y)  
 
 I recommend you to build this on target device  
 (If you are not on target device install `libnuma-dev` too.)
